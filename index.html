@@ -7,624 +7,138 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg:          #080b10;
-    --surface:     #0f1319;
-    --surface2:    #161c27;
-    --surface3:    #1c2333;
-    --border:      rgba(255,255,255,0.07);
-    --border2:     rgba(255,255,255,0.13);
-    --accent:      #4ade8f;
-    --accent2:     #3bc87a;
-    --accent-dim:  rgba(74,222,143,0.10);
-    --accent-glow: rgba(74,222,143,0.28);
-    --accent-ring: rgba(74,222,143,0.35);
-    --blue:        #60a5fa;
-    --blue-dim:    rgba(96,165,250,0.10);
-    --orange:      #fb923c;
-    --red:         #f87171;
-    --text:        #e2e8f2;
-    --text-mid:    #8896aa;
-    --text-muted:  #424e62;
+    --bg:#080b10; --surface:#0f1319; --surface2:#161c27; --surface3:#1c2333;
+    --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+    --accent:#4ade8f; --accent-dim:rgba(74,222,143,0.10);
+    --accent-glow:rgba(74,222,143,0.28); --accent-ring:rgba(74,222,143,0.35);
+    --blue:#60a5fa; --blue-dim:rgba(96,165,250,0.10);
+    --orange:#fb923c; --red:#f87171;
+    --text:#e2e8f2; --text-mid:#8896aa; --text-muted:#424e62;
   }
-
-  html, body {
-    height: 100%;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-  }
-
-  body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 0 80px;
-  }
-
-  /* ── Topbar ── */
-  .topbar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 32px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(12px);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-icon {
-    width: 32px; height: 32px;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent-ring);
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-
-  .logo-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    color: var(--text);
-  }
-
-  .logo-name span { color: var(--accent); }
-
-  .mode-toggle {
-    display: flex;
-    gap: 6px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 4px;
-  }
-
-  .mode-btn {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    padding: 7px 16px;
-    border-radius: 7px;
-    border: none;
-    cursor: pointer;
-    transition: all .2s;
-    background: transparent;
-    color: var(--text-muted);
-  }
-
-  .mode-btn.active {
-    background: var(--accent);
-    color: #080b10;
-  }
-
-  /* ── Main content ── */
-  .main {
-    width: 100%;
-    max-width: 860px;
-    padding: 48px 24px 0;
-    animation: fadeUp .5s ease both;
-  }
-
-  /* ── Hero ── */
-  .hero {
-    text-align: center;
-    margin-bottom: 44px;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-dim);
-    border: 1px solid var(--accent-ring);
-    border-radius: 99px;
-    padding: 5px 14px;
-    margin-bottom: 20px;
-  }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: 800;
-    letter-spacing: -.03em;
-    line-height: 1.1;
-    color: var(--text);
-    margin-bottom: 14px;
-  }
-
-  .hero h1 span { color: var(--accent); }
-
-  .hero p {
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--text-mid);
-    line-height: 1.7;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  /* ── Card shell ── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
-    pointer-events: none;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 22px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .card-header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .card-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent-glow);
-  }
-
-  .card-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--text-mid);
-  }
-
-  .card-actions {
-    display: flex;
-    gap: 8px;
-  }
-
-  /* ── Buttons ── */
-  .btn {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all .2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .btn-ghost {
-    background: var(--surface2);
-    color: var(--text-mid);
-    border: 1px solid var(--border);
-  }
-
-  .btn-ghost:hover { color: var(--text); border-color: var(--border2); }
-
-  .btn-accent {
-    background: var(--accent);
-    color: #080b10;
-  }
-
-  .btn-accent:hover {
-    background: #6be9a8;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px var(--accent-glow);
-  }
-
-  .btn-accent:disabled {
-    background: var(--surface2);
-    color: var(--text-muted);
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-    border: 1px solid var(--border);
-  }
-
-  .btn-blue {
-    background: var(--blue-dim);
-    color: var(--blue);
-    border: 1px solid rgba(96,165,250,0.25);
-  }
-
-  .btn-blue:hover { background: rgba(96,165,250,0.18); }
-
-  /* ── Textarea ── */
-  .editor-wrap {
-    position: relative;
-  }
-
-  .editor {
-    width: 100%;
-    min-height: 300px;
-    background: var(--surface);
-    border: none;
-    outline: none;
-    padding: 22px 24px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--text);
-    resize: vertical;
-    line-height: 1.75;
-    tab-size: 2;
-    display: block;
-  }
-
-  .editor::placeholder {
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  .editor-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 22px;
-    border-top: 1px solid var(--border);
-    background: var(--surface2);
-  }
-
-  .char-count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .char-count span { color: var(--text-mid); }
-
-  /* ── File attach ── */
-  .attach-zone {
-    border: 1.5px dashed rgba(74,222,143,0.2);
-    border-radius: 12px;
-    margin: 0 22px 22px;
-    padding: 22px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .2s;
-    background: rgba(74,222,143,0.02);
-  }
-
-  .attach-zone:hover {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-
-  .attach-zone.has-file {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-
-  .attach-icon { font-size: 22px; margin-bottom: 8px; }
-
-  .attach-label {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--text-mid);
-  }
-
-  .attach-label strong { color: var(--accent); }
-
-  .attach-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 4px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  #fileInput { display: none; }
-
-  /* ── Share URL card ── */
-  .share-card {
-    margin-top: 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: none;
-    animation: fadeUp .35s ease both;
-  }
-
-  .share-card.visible { display: block; }
-
-  .url-row {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 18px 22px;
-  }
-
-  .url-box {
-    flex: 1;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-right: none;
-    border-radius: 9px 0 0 9px;
-    padding: 11px 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    user-select: all;
-    cursor: text;
-  }
-
-  .url-copy-btn {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    padding: 11px 18px;
-    background: var(--accent);
-    color: #080b10;
-    border: none;
-    border-radius: 0 9px 9px 0;
-    cursor: pointer;
-    transition: background .2s;
-    white-space: nowrap;
-  }
-
-  .url-copy-btn:hover { background: #6be9a8; }
-
-  .share-meta {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 0 22px 18px;
-    flex-wrap: wrap;
-  }
-
-  .share-meta-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--text-muted);
-  }
-
-  .share-meta-item .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
-
-  .share-meta-item.warn .dot { background: var(--orange); }
-
-  /* ── View mode ── */
-  .view-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: none;
-    animation: fadeUp .4s ease both;
-  }
-
-  .view-card.visible { display: block; }
-
-  .view-content {
-    padding: 24px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--text);
-    line-height: 1.75;
-    white-space: pre-wrap;
-    word-break: break-word;
-    min-height: 200px;
-    max-height: 520px;
-    overflow-y: auto;
-  }
-
-  .view-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 24px;
-    gap: 12px;
-    color: var(--text-muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-  }
-
-  .view-empty .icon { font-size: 32px; opacity: .4; }
-
-  /* file preview */
-  .file-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-size: 12px;
-    color: var(--text-mid);
-    margin: 0 24px 20px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* ── Toast ── */
-  .toast {
-    position: fixed;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--surface3);
-    border: 1px solid var(--accent-ring);
-    color: var(--accent);
-    font-family: 'Syne', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .07em;
-    padding: 12px 22px;
-    border-radius: 99px;
-    box-shadow: 0 8px 32px rgba(0,0,0,.5);
-    opacity: 0;
-    transition: opacity .25s, transform .25s;
-    pointer-events: none;
-    z-index: 999;
-    white-space: nowrap;
-  }
-
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* ── How it works ── */
-  .how-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 40px;
-  }
-
-  @media (max-width: 600px) { .how-grid { grid-template-columns: 1fr; } }
-
-  .how-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    padding: 20px;
-    animation: fadeUp .5s ease both;
-  }
-
-  .how-card:nth-child(1) { animation-delay: .1s }
-  .how-card:nth-child(2) { animation-delay: .18s }
-  .how-card:nth-child(3) { animation-delay: .26s }
-
-  .how-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--accent);
-    opacity: .25;
-    margin-bottom: 10px;
-    line-height: 1;
-  }
-
-  .how-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  .how-desc {
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  /* ── Section label ── */
-  .section-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    margin-top: 32px;
-  }
-
-  /* ── Scrollbar ── */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── Divider ── */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0 22px;
-  }
+  html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 0 80px;}
+
+  .topbar{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100;}
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo-icon{width:32px;height:32px;background:var(--accent-dim);border:1px solid var(--accent-ring);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+  .logo-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.02em;}
+  .logo-name span{color:var(--accent);}
+  .mode-toggle{display:flex;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:4px;}
+  .mode-btn{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:7px;border:none;cursor:pointer;transition:all .2s;background:transparent;color:var(--text-muted);}
+  .mode-btn.active{background:var(--accent);color:#080b10;}
+
+  .main{width:100%;max-width:860px;padding:48px 24px 0;animation:fadeUp .5s ease both;}
+
+  .hero{text-align:center;margin-bottom:44px;}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-ring);border-radius:99px;padding:5px 14px;margin-bottom:20px;}
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:14px;}
+  .hero h1 span{color:var(--accent);}
+  .hero p{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.7;max-width:480px;margin:0 auto;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative;}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-glow),transparent);pointer-events:none;}
+  .card-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);}
+  .card-header-left{display:flex;align-items:center;gap:10px;}
+  .card-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent-glow);}
+  .card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-mid);}
+  .card-actions{display:flex;gap:8px;}
+
+  .btn{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+  .btn-ghost{background:var(--surface2);color:var(--text-mid);border:1px solid var(--border);}
+  .btn-ghost:hover{color:var(--text);border-color:var(--border2);}
+  .btn-accent{background:var(--accent);color:#080b10;font-size:12px;padding:10px 22px;}
+  .btn-accent:hover{background:#6be9a8;transform:translateY(-1px);box-shadow:0 6px 20px var(--accent-glow);}
+  .btn-accent:disabled{background:var(--surface2);color:var(--text-muted);cursor:not-allowed;transform:none;box-shadow:none;border:1px solid var(--border);}
+  .btn-blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,0.25);}
+  .btn-blue:hover{background:rgba(96,165,250,0.18);}
+
+  .editor{width:100%;min-height:300px;background:var(--surface);border:none;outline:none;padding:22px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:300;color:var(--text);resize:vertical;line-height:1.75;display:block;}
+  .editor::placeholder{color:var(--text-muted);font-style:italic;}
+  .editor-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 22px;border-top:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;gap:8px;}
+  .char-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);}
+  .char-count span{color:var(--text-mid);}
+  .divider{height:1px;background:var(--border);margin:0 22px;}
+
+  .attach-zone{border:1.5px dashed rgba(74,222,143,0.2);border-radius:12px;margin:0 22px 22px;padding:22px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(74,222,143,0.02);}
+  .attach-zone:hover,.attach-zone.has-file{border-color:var(--accent);background:var(--accent-dim);}
+  .attach-icon{font-size:22px;margin-bottom:8px;}
+  .attach-label{font-size:13px;color:var(--text-mid);}
+  .attach-label strong{color:var(--accent);}
+  .attach-sub{font-size:11px;color:var(--text-muted);margin-top:4px;font-family:'JetBrains Mono',monospace;}
+  #fileInput{display:none;}
+
+  /* Animated service status strip */
+  .service-bar{display:none;align-items:center;gap:12px;padding:13px 22px;background:var(--surface2);border-top:1px solid var(--border);font-size:12px;font-family:'JetBrains Mono',monospace;}
+  .service-bar.visible{display:flex;}
+  .svc-dots{display:flex;gap:5px;}
+  .svc-dot{width:7px;height:7px;border-radius:50%;background:var(--surface3);}
+  .svc-dot.done{background:var(--accent);}
+  .svc-dot.active{background:var(--accent);animation:pulse 0.8s infinite;}
+  .svc-dot.fail{background:var(--red);}
+  .svc-label{color:var(--text-mid);}
+  .svc-label span{color:var(--accent);}
+
+  .share-card{margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:none;animation:fadeUp .35s ease both;}
+  .share-card.visible{display:block;}
+  .url-row{display:flex;align-items:center;padding:18px 22px;gap:0;}
+  .url-box{flex:1;background:var(--surface2);border:1px solid var(--border);border-right:none;border-radius:9px 0 0 9px;padding:11px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;user-select:all;cursor:text;}
+  .url-copy-btn{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;padding:11px 18px;background:var(--accent);color:#080b10;border:none;border-radius:0 9px 9px 0;cursor:pointer;transition:background .2s;white-space:nowrap;}
+  .url-copy-btn:hover{background:#6be9a8;}
+  .share-meta{display:flex;align-items:center;gap:20px;padding:0 22px 18px;flex-wrap:wrap;}
+  .share-meta-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:300;color:var(--text-muted);}
+  .share-meta-item .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+
+  .section-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;margin-top:32px;}
+  .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:600px){.how-grid{grid-template-columns:1fr;}}
+  .how-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:20px;}
+  .how-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent);opacity:.25;margin-bottom:10px;line-height:1;}
+  .how-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;}
+  .how-desc{font-size:12px;font-weight:300;color:var(--text-muted);line-height:1.6;}
+
+  .view-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:none;animation:fadeUp .4s ease both;}
+  .view-card.visible{display:block;}
+  .view-content{padding:24px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:300;color:var(--text);line-height:1.75;white-space:pre-wrap;word-break:break-word;min-height:200px;max-height:520px;overflow-y:auto;}
+  .view-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;gap:12px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;text-align:center;line-height:1.6;}
+  .view-empty .icon{font-size:32px;opacity:.4;}
+  .file-badge{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--text-mid);margin:0 24px 20px;font-family:'JetBrains Mono',monospace;}
+
+  .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface3);border:1px solid var(--accent-ring);color:var(--accent);font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;padding:12px 22px;border-radius:99px;box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  ::-webkit-scrollbar{width:5px;height:5px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+  @keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 
-<!-- Topbar -->
 <div class="topbar">
   <div class="logo">
     <div class="logo-icon">📡</div>
     <div class="logo-name">Data<span>Drop</span></div>
   </div>
   <div class="mode-toggle">
-    <button class="mode-btn active" id="btnSend" onclick="setMode('send')">Send</button>
-    <button class="mode-btn" id="btnReceive" onclick="setMode('receive')">Receive</button>
+    <button class="mode-btn active" id="btnSend"    onclick="setMode('send')">Send</button>
+    <button class="mode-btn"        id="btnReceive" onclick="setMode('receive')">Receive</button>
   </div>
 </div>
 
-<!-- Main -->
 <div class="main">
-
-  <!-- Hero -->
   <div class="hero">
-    <div class="hero-eyebrow">⚡ No backend · No account · Instant</div>
+    <div class="hero-eyebrow">⚡ No API key · No account · Instant</div>
     <h1>Paste here.<br/><span>Open anywhere.</span></h1>
-    <p>Type or paste your data, attach a file, generate a shareable link — open it on any machine, no login needed.</p>
+    <p>Paste any data, get a short link, open it on any machine. No login, no setup, no size limit.</p>
   </div>
 
-  <!-- ═══════════ SEND MODE ═══════════ -->
+  <!-- SEND -->
   <div id="sendMode">
-
     <div class="section-label">Your data</div>
-
     <div class="card">
       <div class="card-header">
         <div class="card-header-left">
@@ -637,48 +151,47 @@
         </div>
       </div>
 
-      <div class="editor-wrap">
-        <textarea
-          class="editor"
-          id="editor"
-          placeholder="Paste JSON, CSV, code, notes, config, or any text here…&#10;&#10;Everything you type will be encoded into the shareable URL."
-          oninput="onEditorInput()"
-          spellcheck="false"
-        ></textarea>
-      </div>
+      <textarea class="editor" id="editor"
+        placeholder="Paste JSON, CSV, config, code, notes — any size…&#10;&#10;Content is stored on a free paste service. You get a short link."
+        oninput="onEditorInput()" spellcheck="false"></textarea>
 
       <div class="editor-footer">
         <div class="char-count">
-          <span id="charCount">0</span> chars &nbsp;·&nbsp; <span id="lineCount">0</span> lines
+          <span id="charCount">0</span> chars &nbsp;·&nbsp;
+          <span id="lineCount">0</span> lines &nbsp;·&nbsp;
+          <span id="sizeLabel">0 KB</span>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <span style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;" id="sizeWarn"></span>
-          <button class="btn btn-ghost" onclick="document.getElementById('fileInput').click()">📎 Attach file</button>
-        </div>
+        <button class="btn btn-ghost" onclick="document.getElementById('fileInput').click()">📎 Attach file</button>
       </div>
 
       <input type="file" id="fileInput" onchange="attachFile(event)"/>
-
       <div class="divider"></div>
 
-      <!-- File attach zone -->
       <div class="attach-zone" id="attachZone"
            onclick="document.getElementById('fileInput').click()"
-           ondragover="dragOver(event)"
-           ondrop="dropFile(event)">
+           ondragover="dragOver(event)" ondrop="dropFile(event)">
         <div class="attach-icon" id="attachIcon">📎</div>
         <div class="attach-label" id="attachLabel"><strong>Attach a file</strong> or drag & drop</div>
-        <div class="attach-sub" id="attachSub">JSON · CSV · TXT · any text file · max ~200 KB</div>
+        <div class="attach-sub"   id="attachSub">JSON · CSV · TXT · any text file</div>
       </div>
 
-      <div style="padding: 0 22px 22px; display:flex; justify-content:flex-end;">
+      <!-- Live service status -->
+      <div class="service-bar" id="serviceBar">
+        <div class="svc-dots">
+          <div class="svc-dot" id="dot0"></div>
+          <div class="svc-dot" id="dot1"></div>
+          <div class="svc-dot" id="dot2"></div>
+        </div>
+        <div class="svc-label">Trying <span id="svcName">…</span></div>
+      </div>
+
+      <div style="padding:0 22px 22px;display:flex;justify-content:flex-end;">
         <button class="btn btn-accent" id="btnGenerate" onclick="generateLink()" disabled>
           Generate Share Link →
         </button>
       </div>
     </div>
 
-    <!-- Share link card -->
     <div class="share-card" id="shareCard">
       <div class="card-header">
         <div class="card-header-left">
@@ -686,7 +199,7 @@
           <span class="card-title">Your shareable link</span>
         </div>
         <div class="card-actions">
-          <button class="btn btn-blue" onclick="openLink()">Open →</button>
+          <button class="btn btn-blue" id="openBtn" onclick="openLink()">Open →</button>
         </div>
       </div>
       <div class="url-row">
@@ -694,431 +207,317 @@
         <button class="url-copy-btn" onclick="copyURL()">Copy URL</button>
       </div>
       <div class="share-meta">
-        <div class="share-meta-item"><div class="dot"></div> No server · data is in the URL</div>
-        <div class="share-meta-item"><div class="dot"></div> Works on any browser</div>
-        <div class="share-meta-item warn" id="sizeHint"><div class="dot"></div> <span id="sizeHintText"></span></div>
+        <div class="share-meta-item"><div class="dot"></div><span id="metaService">—</span></div>
+        <div class="share-meta-item"><div class="dot"></div><span id="metaExpiry">—</span></div>
+        <div class="share-meta-item"><div class="dot"></div>Works on any browser</div>
       </div>
     </div>
 
-    <!-- How it works -->
     <div class="section-label" style="margin-top:44px;">How it works</div>
     <div class="how-grid">
-      <div class="how-card">
-        <div class="how-num">01</div>
-        <div class="how-title">Paste your data</div>
-        <div class="how-desc">Type, paste, or drop any text — JSON, CSV, config files, notes, code snippets.</div>
-      </div>
-      <div class="how-card">
-        <div class="how-num">02</div>
-        <div class="how-title">Generate a link</div>
-        <div class="how-desc">Your content is compressed and encoded directly into the URL. No servers involved.</div>
-      </div>
-      <div class="how-card">
-        <div class="how-num">03</div>
-        <div class="how-title">Open anywhere</div>
-        <div class="how-desc">Share the link via Slack, email, or WhatsApp. Anyone with the URL sees the data instantly.</div>
-      </div>
+      <div class="how-card"><div class="how-num">01</div><div class="how-title">Paste your data</div><div class="how-desc">Type, paste, or drop any text — JSON, CSV, config, code, notes. No size restrictions.</div></div>
+      <div class="how-card"><div class="how-num">02</div><div class="how-title">Get a short link</div><div class="how-desc">Content uploads to a free paste service. You get a clean ~60-char URL — nothing encoded in it.</div></div>
+      <div class="how-card"><div class="how-num">03</div><div class="how-title">Open anywhere</div><div class="how-desc">Share via Slack, email, WhatsApp. Anyone with the link sees the data instantly in their browser.</div></div>
     </div>
-
   </div>
 
-  <!-- ═══════════ RECEIVE MODE ═══════════ -->
+  <!-- RECEIVE -->
   <div id="receiveMode" style="display:none;">
-
     <div class="section-label">Received data</div>
-
-    <div class="view-card visible" id="viewCard">
+    <div class="view-card visible">
       <div class="card-header">
         <div class="card-header-left">
           <div class="card-dot" id="viewDot" style="background:var(--text-muted);box-shadow:none;"></div>
-          <span class="card-title" id="viewTitle">Waiting for data in URL…</span>
+          <span class="card-title" id="viewTitle">Fetching…</span>
         </div>
         <div class="card-actions" id="viewActions" style="display:none;">
-          <button class="btn btn-ghost" onclick="copyContent()">Copy Content</button>
-          <button class="btn btn-ghost" onclick="downloadContent()">Download</button>
-          <button class="btn btn-accent" onclick="setMode('send')">Edit & Resend</button>
+          <button class="btn btn-ghost"  onclick="copyContent()">Copy</button>
+          <button class="btn btn-ghost"  onclick="downloadContent()">Download</button>
+          <button class="btn btn-accent" onclick="editAndResend()">Edit & Resend</button>
         </div>
       </div>
-
       <div id="viewFileInfo"></div>
-
       <div class="view-content" id="viewContent">
-        <div class="view-empty">
-          <div class="icon">📭</div>
-          No data found in this URL.<br/>Switch to <strong>Send</strong> mode to create a shareable link.
-        </div>
+        <div class="view-empty"><div class="icon">📭</div>No data found. Switch to <strong>Send</strong> mode to create a link.</div>
       </div>
-
       <div class="editor-footer" id="viewFooter" style="display:none;">
-        <div class="char-count">
-          <span id="viewCharCount">0</span> chars &nbsp;·&nbsp; <span id="viewLineCount">0</span> lines
-        </div>
-        <div style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;" id="viewEncLabel"></div>
+        <div class="char-count"><span id="viewChars">0</span> chars · <span id="viewLines">0</span> lines</div>
+        <div style="font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;" id="viewSource"></div>
       </div>
     </div>
-
   </div>
-
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Utility ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════
+//  DataDrop v3  |  Zero-key · Multi-service fallback chain
+//
+//  Upload chain (tries in order, all free, no signup):
+//   1. dpaste.com  — JSON API, public bins, 365-day expiry
+//   2. paste.rs    — simple PUT API, 24h
+//   3. hastebin    — toptal instance, 30d
+//
+//  Share URL format:  datadrop.html?s=<prefix>&id=<pasteId>
+//  Receive:           fetches raw text from the right service
+// ═══════════════════════════════════════════════════════════════════
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+let attachedFileName = null, attachedFileContent = null;
+
+// ── Toast ──────────────────────────────────────────────────────────
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent    = msg;
+  el.style.color       = type === 'err' ? 'var(--red)'    : 'var(--accent)';
+  el.style.borderColor = type === 'err' ? 'rgba(248,113,113,.35)' : 'var(--accent-ring)';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
 }
 
-// LZString — tiny inline lossless compression for URL encoding
-// MIT License · pieroxy.net/huffman
-const LZString = (() => {
-  const f = String.fromCharCode;
-  const keyStrUriSafe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
-  const baseReverseDic = {};
-
-  function getBaseValue(alphabet, character) {
-    if (!baseReverseDic[alphabet]) {
-      baseReverseDic[alphabet] = {};
-      for (let i = 0; i < alphabet.length; i++) baseReverseDic[alphabet][alphabet[i]] = i;
-    }
-    return baseReverseDic[alphabet][character];
-  }
-
-  function compress(uncompressed, bitsPerChar, getCharFromInt) {
-    if (!uncompressed) return "";
-    let i, value, context_dictionary = {}, context_dictionaryToCreate = {},
-      context_c = "", context_wc = "", context_w = "",
-      context_enlargeIn = 2, context_dictSize = 3, context_numBits = 2,
-      context_data = [], context_data_val = 0, context_data_position = 0, ii;
-    for (ii = 0; ii < uncompressed.length; ii++) {
-      context_c = uncompressed[ii];
-      if (!Object.prototype.hasOwnProperty.call(context_dictionary, context_c)) {
-        context_dictionary[context_c] = context_dictSize++;
-        context_dictionaryToCreate[context_c] = true;
-      }
-      context_wc = context_w + context_c;
-      if (Object.prototype.hasOwnProperty.call(context_dictionary, context_wc)) {
-        context_w = context_wc;
-      } else {
-        if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
-          if (context_w.charCodeAt(0) < 256) {
-            for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; }
-            value = context_w.charCodeAt(0);
-            for (i = 0; i < 8; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-          } else {
-            value = 1;
-            for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1) | value; if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = 0; }
-            value = context_w.charCodeAt(0);
-            for (i = 0; i < 16; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-          }
-          context_enlargeIn--;
-          if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
-          delete context_dictionaryToCreate[context_w];
-        } else {
-          value = context_dictionary[context_w];
-          for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-        }
-        context_enlargeIn--;
-        if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
-        context_dictionary[context_wc] = context_dictSize++;
-        context_w = String(context_c);
-      }
-    }
-    if (context_w !== "") {
-      if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
-        if (context_w.charCodeAt(0) < 256) {
-          for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; }
-          value = context_w.charCodeAt(0);
-          for (i = 0; i < 8; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-        } else {
-          value = 1;
-          for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1) | value; if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = 0; }
-          value = context_w.charCodeAt(0);
-          for (i = 0; i < 16; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-        }
-        delete context_dictionaryToCreate[context_w];
-      } else {
-        value = context_dictionary[context_w];
-        for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-      }
-      context_enlargeIn--;
-      if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
-    }
-    value = 2;
-    for (i = 0; i < context_numBits; i++) { context_data_val = (context_data_val << 1) | (value & 1); if (context_data_position == bitsPerChar-1) { context_data_position = 0; context_data.push(getCharFromInt(context_data_val)); context_data_val = 0; } else context_data_position++; value = value >> 1; }
-    while (true) { context_data_val = (context_data_val << 1); if (context_data_position == bitsPerChar-1) { context_data.push(getCharFromInt(context_data_val)); break; } else context_data_position++; }
-    return context_data.join('');
-  }
-
-  function decompress(length, resetValue, getNextValue) {
-    let dictionary = [], next, enlargeIn = 4, dictSize = 4, numBits = 3, entry = "",
-      result = [], i, w, bits, resb, maxpower, power, c, data = { val: getNextValue(0), position: resetValue, index: 1 };
-    for (i = 0; i < 3; i++) dictionary[i] = i;
-    bits = 0; maxpower = Math.pow(2,2); power = 1;
-    while (power != maxpower) { resb = data.val & data.position; data.position >>= 1; if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); } bits |= (resb>0 ? 1 : 0) * power; power <<= 1; }
-    switch (next = bits) {
-      case 0:
-        bits = 0; maxpower = Math.pow(2,8); power = 1;
-        while (power != maxpower) { resb = data.val & data.position; data.position >>= 1; if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); } bits |= (resb>0 ? 1 : 0) * power; power <<= 1; }
-        c = f(bits); break;
-      case 1:
-        bits = 0; maxpower = Math.pow(2,16); power = 1;
-        while (power != maxpower) { resb = data.val & data.position; data.position >>= 1; if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); } bits |= (resb>0 ? 1 : 0) * power; power <<= 1; }
-        c = f(bits); break;
-      case 2: return "";
-    }
-    dictionary[3] = c; w = c; result.push(c);
-    while (true) {
-      if (data.index > length) return "";
-      bits = 0; maxpower = Math.pow(2,numBits); power = 1;
-      while (power != maxpower) { resb = data.val & data.position; data.position >>= 1; if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); } bits |= (resb>0 ? 1 : 0) * power; power <<= 1; }
-      switch (c = bits) {
-        case 0:
-          bits = 0; maxpower = Math.pow(2,8); power = 1;
-          while (power != maxpower) { resb = data.val & data.position; data.position >>= 1; if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); } bits |= (resb>0 ? 1 : 0) * power; power <<= 1; }
-          dictionary[dictSize++] = f(bits); c = dictSize-1; enlargeIn--;  break;
-        case 1:
-          bits = 0; maxpower = Math.pow(2,16); power = 1;
-          while (power != maxpower) { resb = data.val & data.position; data.position >>= 1; if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); } bits |= (resb>0 ? 1 : 0) * power; power <<= 1; }
-          dictionary[dictSize++] = f(bits); c = dictSize-1; enlargeIn--; break;
-        case 2: return result.join('');
-      }
-      if (enlargeIn == 0) { enlargeIn = Math.pow(2, numBits); numBits++; }
-      if (dictionary[c]) entry = dictionary[c]; else { if (c === dictSize) entry = w + w[0]; else return null; }
-      result.push(entry);
-      dictionary[dictSize++] = w + entry[0];
-      enlargeIn--;
-      if (enlargeIn == 0) { enlargeIn = Math.pow(2, numBits); numBits++; }
-      w = entry;
-    }
-  }
-
-  return {
-    compressToEncodedURIComponent: function(input) {
-      return compress(input, 6, a => keyStrUriSafe[a]).replace(/ /g, '+');
-    },
-    decompressFromEncodedURIComponent: function(input) {
-      if (!input) return "";
-      input = input.replace(/ /g, '+');
-      return decompress(input.length, 32, idx => getBaseValue(keyStrUriSafe, input[idx]));
-    }
-  };
-})();
-
-// ── State ─────────────────────────────────────────────────────────────
-let currentMode = 'send';
-let attachedFileName = null;
-let attachedFileContent = null;
-
-// ── Mode switch ───────────────────────────────────────────────────────
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('sendMode').style.display    = mode === 'send'    ? '' : 'none';
-  document.getElementById('receiveMode').style.display = mode === 'receive' ? '' : 'none';
-  document.getElementById('btnSend').classList.toggle('active',    mode === 'send');
-  document.getElementById('btnReceive').classList.toggle('active', mode === 'receive');
-  if (mode === 'receive') loadFromURL();
+// ── Mode ───────────────────────────────────────────────────────────
+function setMode(m) {
+  document.getElementById('sendMode').style.display    = m==='send'    ? '' : 'none';
+  document.getElementById('receiveMode').style.display = m==='receive' ? '' : 'none';
+  document.getElementById('btnSend').classList.toggle('active',    m==='send');
+  document.getElementById('btnReceive').classList.toggle('active', m==='receive');
+  if (m==='receive') loadFromURL();
 }
 
-// ── Editor ────────────────────────────────────────────────────────────
+// ── Editor ─────────────────────────────────────────────────────────
 function onEditorInput() {
-  const val = document.getElementById('editor').value;
-  const lines = val ? val.split('\n').length : 0;
-  document.getElementById('charCount').textContent = val.length.toLocaleString();
-  document.getElementById('lineCount').textContent = lines.toLocaleString();
-  document.getElementById('btnGenerate').disabled = (val.trim() === '' && !attachedFileContent);
-  updateSizeWarning(val);
+  const v = document.getElementById('editor').value;
+  document.getElementById('charCount').textContent = v.length.toLocaleString();
+  document.getElementById('lineCount').textContent = (v ? v.split('\n').length : 0).toLocaleString();
+  document.getElementById('sizeLabel').textContent = (new Blob([v]).size/1024).toFixed(1)+' KB';
+  document.getElementById('btnGenerate').disabled  = !v.trim() && !attachedFileContent;
 }
-
-function updateSizeWarning(val) {
-  const bytes = new Blob([val]).size;
-  const kb = (bytes / 1024).toFixed(1);
-  const warn = document.getElementById('sizeWarn');
-  if (bytes > 100000) {
-    warn.textContent = `⚠ ${kb} KB — URL may be very long`;
-    warn.style.color = 'var(--orange)';
-  } else {
-    warn.textContent = `${kb} KB`;
-    warn.style.color = 'var(--text-muted)';
-  }
-}
-
 function clearAll() {
-  document.getElementById('editor').value = '';
-  attachedFileName = null;
-  attachedFileContent = null;
-  resetAttachZone();
-  onEditorInput();
+  document.getElementById('editor').value='';
+  attachedFileName=null; attachedFileContent=null;
+  resetAttach(); onEditorInput();
   document.getElementById('shareCard').classList.remove('visible');
 }
-
 function formatJSON() {
-  const ta = document.getElementById('editor');
-  try {
-    ta.value = JSON.stringify(JSON.parse(ta.value), null, 2);
-    onEditorInput();
-    showToast('✓ JSON formatted');
-  } catch {
-    showToast('⚠ Not valid JSON');
-  }
+  const t=document.getElementById('editor');
+  try { t.value=JSON.stringify(JSON.parse(t.value),null,2); onEditorInput(); toast('✓ Formatted'); }
+  catch { toast('Not valid JSON','err'); }
 }
 
-// ── File attach ───────────────────────────────────────────────────────
-function attachFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  readFile(file);
-}
-
-function dragOver(e) { e.preventDefault(); }
-
-function dropFile(e) {
-  e.preventDefault();
-  const file = e.dataTransfer.files[0];
-  if (file) readFile(file);
-}
-
+// ── File ───────────────────────────────────────────────────────────
+function attachFile(e)  { if(e.target.files[0]) readFile(e.target.files[0]); }
+function dragOver(e)    { e.preventDefault(); }
+function dropFile(e)    { e.preventDefault(); if(e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]); }
 function readFile(file) {
-  if (file.size > 250000) { showToast('⚠ File too large — max ~200 KB'); return; }
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    attachedFileName = file.name;
-    attachedFileContent = e.target.result;
-    // if editor is empty, put file content in editor
-    const ta = document.getElementById('editor');
-    if (!ta.value.trim()) ta.value = attachedFileContent;
-    // update attach zone
-    document.getElementById('attachIcon').textContent = '✅';
-    document.getElementById('attachLabel').innerHTML = `<strong>${file.name}</strong> attached`;
-    document.getElementById('attachSub').textContent = `${(file.size/1024).toFixed(1)} KB · ${file.type || 'text'}`;
+  new FileReader().onload = ev => {
+    attachedFileName=file.name; attachedFileContent=ev.target.result;
+    if(!document.getElementById('editor').value.trim())
+      document.getElementById('editor').value=ev.target.result;
+    document.getElementById('attachIcon').textContent='✅';
+    document.getElementById('attachLabel').innerHTML=`<strong>${file.name}</strong> attached`;
+    document.getElementById('attachSub').textContent=(file.size/1024).toFixed(1)+' KB';
     document.getElementById('attachZone').classList.add('has-file');
-    onEditorInput();
-    showToast(`✓ ${file.name} attached`);
+    onEditorInput(); toast(`✓ ${file.name} attached`);
   };
-  reader.readAsText(file);
+  const r=new FileReader(); r.onload=ev=>{
+    attachedFileName=file.name; attachedFileContent=ev.target.result;
+    if(!document.getElementById('editor').value.trim())
+      document.getElementById('editor').value=ev.target.result;
+    document.getElementById('attachIcon').textContent='✅';
+    document.getElementById('attachLabel').innerHTML=`<strong>${file.name}</strong> attached`;
+    document.getElementById('attachSub').textContent=(file.size/1024).toFixed(1)+' KB';
+    document.getElementById('attachZone').classList.add('has-file');
+    onEditorInput(); toast(`✓ ${file.name} attached`);
+  }; r.readAsText(file);
 }
-
-function resetAttachZone() {
-  document.getElementById('attachIcon').textContent = '📎';
-  document.getElementById('attachLabel').innerHTML = '<strong>Attach a file</strong> or drag & drop';
-  document.getElementById('attachSub').textContent = 'JSON · CSV · TXT · any text file · max ~200 KB';
+function resetAttach() {
+  document.getElementById('attachIcon').textContent='📎';
+  document.getElementById('attachLabel').innerHTML='<strong>Attach a file</strong> or drag & drop';
+  document.getElementById('attachSub').textContent='JSON · CSV · TXT · any text file';
   document.getElementById('attachZone').classList.remove('has-file');
 }
 
-// ── Generate link ─────────────────────────────────────────────────────
-function generateLink() {
+// ── Upload services ────────────────────────────────────────────────
+const SERVICES = [
+  {
+    name: 'dpaste.com', prefix: 'dp',
+    upload: async (body) => {
+      const f=new FormData();
+      f.append('content', body);
+      f.append('syntax','text');
+      f.append('expiry_days','365');
+      const r=await fetch('https://dpaste.com/api/v2/',{method:'POST',body:f});
+      if(!r.ok) throw new Error(r.status);
+      const url=(await r.text()).trim();
+      // returns https://dpaste.com/XXXXXX
+      return url.replace('https://dpaste.com/','').replace(/\/$/,'');
+    },
+    raw: (id) => `https://dpaste.com/${id}.txt`,
+    expiry: '365 days'
+  },
+  {
+    name: 'paste.rs', prefix: 'pr',
+    upload: async (body) => {
+      const r=await fetch('https://paste.rs/',{method:'POST',body,headers:{'Content-Type':'text/plain'}});
+      if(!r.ok) throw new Error(r.status);
+      const url=(await r.text()).trim();
+      return url.replace('https://paste.rs/','').trim();
+    },
+    raw: (id) => `https://paste.rs/${id}`,
+    expiry: '24 hours'
+  },
+  {
+    name: 'hastebin', prefix: 'hb',
+    upload: async (body) => {
+      const r=await fetch('https://hastebin.com/documents',{method:'POST',body,headers:{'Content-Type':'text/plain'}});
+      if(!r.ok) throw new Error(r.status);
+      const d=await r.json();
+      return d.key;
+    },
+    raw: (id) => `https://hastebin.com/raw/${id}`,
+    expiry: '30 days'
+  }
+];
+
+// ── Generate link ──────────────────────────────────────────────────
+async function generateLink() {
   const content = document.getElementById('editor').value;
-  if (!content.trim()) return;
+  if(!content.trim()) return;
 
-  const payload = JSON.stringify({
-    t: content,
-    f: attachedFileName || null,
-    ts: Date.now()
-  });
+  const payload = attachedFileName
+    ? `===DATADROP===\nfile:${attachedFileName}\n===CONTENT===\n${content}`
+    : content;
 
-  const compressed = LZString.compressToEncodedURIComponent(payload);
-  const url = `${location.href.split('?')[0]}?d=${compressed}`;
+  const btn = document.getElementById('btnGenerate');
+  btn.disabled=true; btn.textContent='Uploading…';
+  document.getElementById('serviceBar').classList.add('visible');
 
-  document.getElementById('urlBox').textContent = url;
-  document.getElementById('shareCard').classList.add('visible');
-
-  const kb = (compressed.length / 1024).toFixed(1);
-  const hint = document.getElementById('sizeHint');
-  const hintText = document.getElementById('sizeHintText');
-  if (compressed.length > 8000) {
-    hintText.textContent = `URL is ${kb} KB — some chat apps may truncate`;
-    hint.style.display = '';
-  } else {
-    hintText.textContent = `URL size: ${kb} KB — safe to share`;
-    hint.style.display = '';
+  let result=null;
+  for(let i=0;i<SERVICES.length;i++) {
+    const svc=SERVICES[i];
+    // update dots
+    for(let j=0;j<3;j++) {
+      const d=document.getElementById('dot'+j);
+      d.className='svc-dot'+(j<i?' done':j===i?' active':'');
+    }
+    document.getElementById('svcName').textContent=svc.name;
+    try {
+      const id=await svc.upload(payload);
+      const shareURL=`${location.href.split('?')[0]}?s=${svc.prefix}&id=${encodeURIComponent(id)}`;
+      result={url:shareURL, service:svc.name, expiry:svc.expiry, rawFn:svc.raw, id};
+      // mark done
+      document.getElementById('dot'+i).className='svc-dot done';
+      break;
+    } catch(e) {
+      document.getElementById('dot'+i).className='svc-dot fail';
+      console.warn(svc.name,'failed:',e.message);
+    }
   }
 
-  showToast('✓ Share link generated');
-  document.getElementById('shareCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('serviceBar').classList.remove('visible');
+  btn.disabled=false; btn.textContent='Generate Share Link →';
+  onEditorInput();
+
+  if(result) {
+    document.getElementById('urlBox').textContent   = result.url;
+    document.getElementById('metaService').textContent = `via ${result.service}`;
+    document.getElementById('metaExpiry').textContent  = `expires in ${result.expiry}`;
+    document.getElementById('shareCard').classList.add('visible');
+    toast('✓ Short link ready!');
+    document.getElementById('shareCard').scrollIntoView({behavior:'smooth',block:'nearest'});
+  } else {
+    // All 3 failed — open blob URL as last resort
+    const blob=new Blob([payload],{type:'text/plain'});
+    document.getElementById('urlBox').textContent='⚠ All paste services unreachable right now.';
+    document.getElementById('metaService').textContent='offline fallback';
+    document.getElementById('metaExpiry').textContent='session only';
+    document.getElementById('shareCard').classList.add('visible');
+    document.getElementById('openBtn').onclick=()=>window.open(URL.createObjectURL(blob),'_blank');
+    toast('Paste services down — use blob download','err');
+  }
 }
 
 function copyURL() {
-  const url = document.getElementById('urlBox').textContent;
-  navigator.clipboard.writeText(url).then(() => showToast('✓ URL copied to clipboard'));
+  const u=document.getElementById('urlBox').textContent;
+  if(u.startsWith('http')) navigator.clipboard.writeText(u).then(()=>toast('✓ URL copied'));
 }
-
 function openLink() {
-  window.open(document.getElementById('urlBox').textContent, '_blank');
+  const u=document.getElementById('urlBox').textContent;
+  if(u.startsWith('http')) window.open(u,'_blank');
 }
 
-// ── Load from URL ─────────────────────────────────────────────────────
-function loadFromURL() {
-  const params = new URLSearchParams(location.search);
-  const d = params.get('d');
+// ── Load from URL ──────────────────────────────────────────────────
+async function loadFromURL() {
+  const p=new URLSearchParams(location.search);
+  const s=p.get('s'), id=p.get('id');
+  if(!s||!id) { setViewEmpty(); return; }
 
-  if (!d) return;
+  document.getElementById('viewTitle').textContent='Fetching your data…';
+  document.getElementById('viewContent').innerHTML=
+    `<div class="view-empty"><div class="icon" style="display:inline-block;animation:spin 1s linear infinite">⏳</div>Loading from paste service…</div>`;
+
+  const svc=SERVICES.find(x=>x.prefix===s);
+  if(!svc) { setViewError('Unknown service prefix in URL.'); return; }
 
   try {
-    const raw = LZString.decompressFromEncodedURIComponent(d);
-    const payload = JSON.parse(raw);
+    const r=await fetch(svc.raw(decodeURIComponent(id)));
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const raw=await r.text();
 
-    const content  = payload.t || '';
-    const filename = payload.f || null;
-
-    // show content
-    document.getElementById('viewContent').textContent = content;
-    document.getElementById('viewDot').style.cssText = 'background:var(--accent);box-shadow:0 0 8px var(--accent-glow)';
-    document.getElementById('viewTitle').textContent = filename
-      ? `Received: ${filename}`
-      : 'Received data';
-    document.getElementById('viewActions').style.display = '';
-    document.getElementById('viewFooter').style.display  = '';
-
-    const lines = content.split('\n').length;
-    document.getElementById('viewCharCount').textContent = content.length.toLocaleString();
-    document.getElementById('viewLineCount').textContent = lines.toLocaleString();
-    document.getElementById('viewEncLabel').textContent  = `compressed · ${(d.length/1024).toFixed(1)} KB in URL`;
-
-    if (filename) {
-      document.getElementById('viewFileInfo').innerHTML =
-        `<div class="file-badge">📎 ${filename}</div>`;
+    let content=raw, filename=null;
+    if(raw.startsWith('===DATADROP===\n')) {
+      const fl=raw.split('\n').find(l=>l.startsWith('file:'));
+      if(fl) filename=fl.replace('file:','').trim();
+      const ci=raw.indexOf('===CONTENT===\n');
+      content=ci>=0?raw.slice(ci+14):raw;
     }
-
-    // prefill editor for "edit & resend"
-    document.getElementById('editor').value = content;
-    if (filename) { attachedFileName = filename; attachedFileContent = content; }
-    onEditorInput();
-
-    showToast('✓ Data loaded from URL');
-  } catch (e) {
-    document.getElementById('viewContent').innerHTML =
-      `<div class="view-empty"><div class="icon">⚠️</div>Could not decode data — the URL may be corrupted or truncated.</div>`;
+    renderReceived(content, filename, svc.name);
+  } catch(e) {
+    setViewError('Could not load — the paste may have expired or the service is offline.');
   }
 }
 
-// ── View mode actions ─────────────────────────────────────────────────
-function copyContent() {
-  const text = document.getElementById('viewContent').textContent;
-  navigator.clipboard.writeText(text).then(() => showToast('✓ Content copied'));
+function renderReceived(content, filename, sourceName) {
+  document.getElementById('viewContent').textContent=content;
+  document.getElementById('viewDot').style.cssText='background:var(--accent);box-shadow:0 0 8px var(--accent-glow)';
+  document.getElementById('viewTitle').textContent=filename?`Received: ${filename}`:'Received data';
+  document.getElementById('viewActions').style.display='';
+  document.getElementById('viewFooter').style.display='';
+  document.getElementById('viewChars').textContent=content.length.toLocaleString();
+  document.getElementById('viewLines').textContent=content.split('\n').length.toLocaleString();
+  document.getElementById('viewSource').textContent='source: '+sourceName;
+  if(filename) document.getElementById('viewFileInfo').innerHTML=`<div class="file-badge">📎 ${filename}</div>`;
+  document.getElementById('editor').value=content;
+  if(filename){attachedFileName=filename;attachedFileContent=content;}
+  onEditorInput();
+  toast('✓ Data loaded');
 }
 
+function setViewEmpty() {
+  document.getElementById('viewTitle').textContent='No data in URL';
+}
+function setViewError(msg) {
+  document.getElementById('viewDot').style.background='var(--red)';
+  document.getElementById('viewTitle').textContent='Error loading data';
+  document.getElementById('viewContent').innerHTML=`<div class="view-empty"><div class="icon">⚠️</div>${msg}</div>`;
+}
+function copyContent()    { navigator.clipboard.writeText(document.getElementById('viewContent').textContent).then(()=>toast('✓ Copied')); }
 function downloadContent() {
-  const text = document.getElementById('viewContent').textContent;
-  const name = attachedFileName || 'datadrop_export.txt';
-  const blob = new Blob([text], { type: 'text/plain' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  a.click();
-  showToast(`✓ Downloading ${name}`);
+  const text=document.getElementById('viewContent').textContent;
+  const name=attachedFileName||'datadrop.txt';
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([text],{type:'text/plain'})),download:name});
+  a.click(); toast('✓ Downloading '+name);
+}
+function editAndResend() {
+  setMode('send');
+  document.getElementById('editor').value=document.getElementById('viewContent').textContent;
+  onEditorInput();
 }
 
-// ── Auto-load on page start ───────────────────────────────────────────
+// ── Boot ───────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(location.search);
-  if (params.get('d')) {
-    setMode('receive');
-  }
+  const p=new URLSearchParams(location.search);
+  if(p.get('s')&&p.get('id')) setMode('receive');
 });
 </script>
 </body>
